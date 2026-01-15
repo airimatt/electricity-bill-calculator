@@ -1,0 +1,33 @@
+Monthly Electricity Bill Calculator
+README
+
+Written by: Airi Matsushita
+
+Overview:
+This program calculates the monthly electricity bill based on electricity usage data from a CSV file.
+It processes the data to determine energy and demand charges according to specified rates for summer and winter periods.
+The program outputs a rundown of all monthly bills,and gives the user the option to look at a breakdown of a bill
+provided the start month and year of the billing cycle.
+
+How to run:
+1. Ensure you have Python installed on your machine.
+2. Place the CSV file containing electricity usage data in the same directory as the script.
+3. Run the script using the command:
+   python monthly_bill_calculator.py OR python3 monthly_bill_calculator.py
+4. When prompted, enter the filename of the CSV file (e.g., raw_data.csv).
+5. After the monthly bills are displayed, you are given the option to enter a specific billing cycle's start.
+   If you wish to see the breakdown of a specific bill, enter the start month and year in the format MM-YYYY (e.g., 05-2024).
+   If not, type 'q' to exit.
+
+This program assumes the following:
+  > the input CSV file contains electricity usage data with columns for Start Date Time, Usage, and Peak Demand.
+  > the first timestamp in the CSV corresponds to the start of a billing cycle.
+  > billing cycle period begins on the start date of the current cycle and ends one day before the start date of the next cycle.
+    Example periods:
+      - Start date 1/5/2024 → End date 2/4/2024
+      - Start date 5/10/2024 → End date 6/9/2024
+  > for time intervals, the start time is inclusive and the end time is exclusive.
+    Examples:
+      - The summer peak time interval from 4:00 PM to 9:00 PM includes 4:00 PM but excludes 9:00 PM.
+      - The winter super off peak time interval from 9:00 AM to 2:00 PM includes 9:00 AM but excludes 2:00 PM.
+  > the customer charge only includes the mandatory rate, as it represents a fixed cost that applies to all customers regardless of energy usage (the voluntary rate was excluded in this program since customer participation is not guaranteed)
