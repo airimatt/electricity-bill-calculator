@@ -28,8 +28,9 @@ def run_calculator():
     print("Welcome to the Monthly Bill Calculator!")
     print("Please enter the filename of the CSV data to process:")
 
-    # take in filename from user
-    filename = input().strip()
+    # take in filename from user and validate
+    filename = open_valid_file()
+    read_in_data(filename)
 
     # read in data from csv file and parse into billing cycles
     billing_cycles = read_in_data(filename)
@@ -40,6 +41,34 @@ def run_calculator():
 
     # query loop - while user input is not 'q' continue to ask for month-year to show billing details for that month
     query_bill_details(billing_cycles)
+
+
+def open_valid_file():
+    while True:
+        filename = input("Enter CSV filename: ")
+        try:
+            with open(filename, newline='') as file:
+                reader = csv.DictReader(file)
+
+                # Ensure header row exists
+                if reader.fieldnames is None:
+                    raise ValueError("Missing header row")
+
+                # Ensure csv is not empty
+                try:
+                    next(reader)
+                except StopIteration:
+                    raise ValueError("CSV is empty")
+
+            # success - return filename
+            return filename
+
+        except FileNotFoundError:
+            print("File not found. Please try again.")
+        except PermissionError:
+            print("Permission denied. Please try again.")
+        except (csv.Error, ValueError) as e:
+            print(f"Invalid CSV: {e}. Please try again.")
 
 
 # open and read in data from csv file, then parse data into billing cycles

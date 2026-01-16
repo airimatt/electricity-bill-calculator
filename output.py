@@ -39,7 +39,7 @@ def print_monthly_bills(billing_cycles):
 
         line = '  ' + ('-' * (15 + len(str(cur_cycle.total_charge))))
         print(line)
-        print(f"{INDENT}Total Charge: ${cur_cycle.energy_charge:,.2f}", '\n')
+        print(f"{INDENT}Total Charge: ${cur_cycle.total_charge:,.2f}", '\n')
 
 
 # print detailed bill information for a specific billing cycle
@@ -71,7 +71,7 @@ def print_bill_details(billing_cycles, user_input):
 
     line = '  ' + ('-' * (15 + len(str(cur_cycle.total_charge))))
     print(line)
-    print(f"{INDENT}Total Charge: ${cur_cycle.energy_charge:,.2f}", '\n')
+    print(f"{INDENT}Total Charge: ${cur_cycle.total_charge:,.2f}", '\n')
 
 
 # display winter rate details

@@ -20,7 +20,7 @@ How to run:
    If not, type 'q' to exit.
 
 This program assumes the following:
-  > the input CSV file contains electricity usage data with columns for Start Date Time, Usage, and Peak Demand.
+  > the input is a CSV file containing electricity usage data with columns for Start Date Time, Usage, and Peak Demand.
   > the first timestamp in the CSV corresponds to the start of a billing cycle.
   > billing cycle period begins on the start date of the current cycle and ends one day before the start date of the next cycle.
     Example periods:
