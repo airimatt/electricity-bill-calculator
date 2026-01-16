@@ -1,3 +1,4 @@
+from datetime import datetime, time
 from decimal import Decimal, ROUND_HALF_UP
 from tariff_rates import B19Rates
 
@@ -15,19 +16,41 @@ from tariff_rates import B19Rates
 summer_start = (6, 1)
 summer_end = (9, 30)
 
+
+# define time periods in each season
+time_periods = {
+    "summer": {
+        "peak": (time(16, 0), time(21, 0)),
+        "part_peak": (time(14, 0), time(16, 0)),
+        "part_peak2": (time(21, 0), time(23, 0))
+    },
+    "winter": {
+        "peak": (time(16, 0), time(21, 0)),
+        "super_off_peak": (time(9, 0), time(14, 0)),
+    }
+}
+
+
+# checks if time is within a given time window
+def in_time_window(t, window):
+    t = datetime.strptime(t, "%H:%M").time()
+    start, end = window
+    return start <= t < end
+
+
 # updates energy charge values based on datetime
 def update_energy_charge_periods(cur_billing_cycle, month, date, time, usage):
     if summer_start <= (month, date) <= summer_end:
-        if "16:00" <= time < "21:00": # peak hours 4pm - 9pm
+        if in_time_window(time, time_periods['summer']['peak']): # peak hours 4pm - 9pm
             cur_billing_cycle.energy_charge_periods['summer']['peak'].value += usage
-        elif "14:00" <= time < "16:00" or "21:00" <= time < "23:00": # partial peak hours 2pm - 4pm and 9pm to 11pm
+        elif in_time_window(time, time_periods['summer']['part_peak']) or in_time_window(time, time_periods['summer']['part_peak2']): # partial peak hours 2pm - 4pm and 9pm to 11pm
             cur_billing_cycle.energy_charge_periods['summer']['part_peak'].value += usage
         else: # off peak hours all other hours
             cur_billing_cycle.energy_charge_periods['summer']['off_peak'].value += usage
     else:
-        if "16:00" <= time < "21:00": # peak hours 4pm - 9pm
+        if in_time_window(time, time_periods['winter']['peak']): # peak hours 4pm - 9pm
             cur_billing_cycle.energy_charge_periods['winter']['peak'].value += usage
-        elif (3 <= month <= 5) and ("09:00" <= time < "14:00"): # super off peak hours 9am - 2pm March through May
+        elif (3 <= month <= 5) and in_time_window(time, time_periods['winter']['super_off_peak']): # super off peak hours 9am - 2pm March through May
             cur_billing_cycle.energy_charge_periods['winter']['super_off_peak'].value += usage
         else: # off peak hours all other hours
             cur_billing_cycle.energy_charge_periods['winter']['off_peak'].value += usage
@@ -36,14 +59,14 @@ def update_energy_charge_periods(cur_billing_cycle, month, date, time, usage):
 # updates demand charge values based on datetime
 def update_demand_charge_periods(cur_billing_cycle, month, date, time, demand):
     if summer_start <= (month, date) <= summer_end:
-        if "16:00" <= time < "21:00": # peak hours 4pm - 9pm
+        if in_time_window(time, time_periods['summer']['peak']): # peak hours 4pm - 9pm
             cur_billing_cycle.demand_charge_periods['summer']['max_peak'].value = max(cur_billing_cycle.demand_charge_periods['summer']['max_peak'].value, demand)
-        elif "14:00" <= time < "16:00" or "21:00" <= time < "23:00": # partial peak hours 2pm - 4pm and 9pm to 11pm
+        elif in_time_window(time, time_periods['summer']['part_peak']) or in_time_window(time, time_periods['summer']['part_peak2']): # partial peak hours 2pm - 4pm and 9pm to 11pm
             cur_billing_cycle.demand_charge_periods['summer']['max_part_peak'].value = max(cur_billing_cycle.demand_charge_periods['summer']['max_part_peak'].value, demand)
         # max demand includes all hours
         cur_billing_cycle.demand_charge_periods['summer']['max_demand'].value = max(cur_billing_cycle.demand_charge_periods['summer']['max_demand'].value, demand)
     else:
-        if "16:00" <= time < "21:00": # peak hours 4pm - 9pm
+        if in_time_window(time, time_periods['winter']['peak']): # peak hours 4pm - 9pm
             cur_billing_cycle.demand_charge_periods['winter']['max_peak'].value = max(cur_billing_cycle.demand_charge_periods['winter']['max_peak'].value, demand)
         # max demand includes all hours
         cur_billing_cycle.demand_charge_periods['winter']['max_demand'].value = max(cur_billing_cycle.demand_charge_periods['winter']['max_demand'].value, demand)

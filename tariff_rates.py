@@ -10,7 +10,7 @@ from decimal import Decimal
 ########################################################
 
 
-
+# defines rates specified in the B-19 Tariff
 B19Rates = {
     'customer_charge_rates' : {
         'mandatory' : Decimal('59.63519'),

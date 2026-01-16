@@ -21,7 +21,10 @@ How to run:
 
 This program assumes the following:
   > the input is a CSV file containing electricity usage data with columns for Start Date Time, Usage, and Peak Demand.
-  > the first timestamp in the CSV corresponds to the start of a billing cycle.
+  > the first timestamp's date in the CSV corresponds to the startdate of a billing cycle.
+    Example:
+    - first timestamp = 10-22-2022
+    - each billing cycle wills start on the 22nd of the month
   > billing cycle period begins on the start date of the current cycle and ends one day before the start date of the next cycle.
     Example periods:
       - Start date 1/5/2024 → End date 2/4/2024
@@ -30,4 +33,4 @@ This program assumes the following:
     Examples:
       - The summer peak time interval from 4:00 PM to 9:00 PM includes 4:00 PM but excludes 9:00 PM.
       - The winter super off peak time interval from 9:00 AM to 2:00 PM includes 9:00 AM but excludes 2:00 PM.
-  > the customer charge only includes the mandatory rate, as it represents a fixed cost that applies to all customers regardless of energy usage (the voluntary rate was excluded in this program since customer participation is not guaranteed)
+  > the customer charge only includes the mandatory rate, as it represents a fixed cost that applies to all customers (the voluntary rate was excluded in this program since customer participation is not guaranteed)

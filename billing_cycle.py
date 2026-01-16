@@ -17,7 +17,6 @@ class BillingCycle:
         self.energy_charge = 0
         self.total_charge = 0
 
-
     def initialize_energy_charge_periods(self, start_date, cur_billing_cycle):
         month = int(start_date[0:2])
         day = int(start_date[3:5])
@@ -34,7 +33,6 @@ class BillingCycle:
                 "super_off_peak": ValueCost()
             }
         }
-
 
     def initialize_demand_charge_periods(self, start_date, cur_billing_cycle):
         month = int(start_date[0:2])
