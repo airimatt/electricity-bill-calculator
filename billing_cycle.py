@@ -1,9 +1,21 @@
+########################################################
+
+# billing_cycle.py
+
+# contains definitions for the ValueCost
+# and BillingCycle objects
+
+########################################################
+
+
+# stores demand/energy values and cost for those values
 class ValueCost:
     def __init__(self):
         self.value = 0
         self.cost = 0
 
 
+# stores information for a single billing cycle
 class BillingCycle:
     def __init__(self, start_date: str):
         self.start_date = start_date
@@ -17,6 +29,7 @@ class BillingCycle:
         self.energy_charge = 0
         self.total_charge = 0
 
+    # initializes energy charge values for all seasons and time periods
     def initialize_energy_charge_periods(self, cur_billing_cycle):
 
         cur_billing_cycle.energy_charge_periods = {
@@ -32,6 +45,7 @@ class BillingCycle:
             }
         }
 
+    # initializes demand charge values for all seasons and time periods
     def initialize_demand_charge_periods(self, cur_billing_cycle):
 
         cur_billing_cycle.demand_charge_periods = {
