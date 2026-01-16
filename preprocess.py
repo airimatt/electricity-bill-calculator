@@ -92,8 +92,8 @@ def parse_data(reader, start_of_month):
 
             new_billing_cycle = BillingCycle(start_datetime[:10])
             cur_billing_cycle = new_billing_cycle
-            cur_billing_cycle.initialize_energy_charge_periods(start_datetime[:5], cur_billing_cycle)
-            cur_billing_cycle.initialize_demand_charge_periods(start_datetime[:5], cur_billing_cycle)
+            cur_billing_cycle.initialize_energy_charge_periods(cur_billing_cycle)
+            cur_billing_cycle.initialize_demand_charge_periods(cur_billing_cycle)
 
         # increment billing days and seasonal days (will offset later based on interval length)
         billing_days += 1
